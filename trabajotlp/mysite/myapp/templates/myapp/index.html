@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones Universitarias</title>
+    <link rel="stylesheet" href="{% static 'miapp/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'miapp/css/styles.css' %}" />
+</head>
+<body>
+  
+  <script src="{% static 'miapp/js/bootstrap.bundle.min.js' %}"></script>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="{% static 'miapp/imagenes/logo.png' %}" alt="Descripción de la imagen" class="logo-image elemento-oculto-gigante" />
+        <img src="{% static 'miapp/imagenes/logo.png' %}" alt="Descripción de la imagen" class="logo-image-gigante logo-image-gigante" />
+      </div>
+      <div class="col-md-8">
+        <h1 class="university-name ocultar-navbar-mobile ">Sistema Integrado de Notificaciones</h1>
+        <div class="title-line tamaño-en-mobile "></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="  tamaño-en-mobile elemento-oculto-gigante navbar-expand-lg bg-body-tertiary navbar">
+    <div class="container-fluid  ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav custom-navbar ocultar-navbarr-mobile">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">inicio </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">administacion</a>
+          </li>
+          <li class="nav-item">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-4 mt-3">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Filtrar por entidad
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'index' %}">Todas las entidades</a></li>
+            {% for entidad in entidades %}
+              <li><a class="dropdown-item" href="{% url 'index_entidad' entidad.ID %}">{{ entidad.nombre }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row elemento-oculto-gigante">
+      {% for comunicado in comunicados %}
+        <div class="col-md-3 mb-3 mt-3" >
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{ comunicado.titulo }}</h5>
+              <p class="card-text"><strong>Departamento:</strong> {{ comunicado.entidad.nombre }}</p>
+              <p class="card-text">{{ comunicado.detalle }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div id="myCarousel" class="carousel carousel-dark slide logo-image-gigante">
+      <div class="carousel-indicators">
+        {% for comunicado in comunicados %}
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></button>
+        {% endfor %}
+      </div>
+    
+      <div class="carousel-inner">
+        {% for comunicado in comunicados %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{% static 'miapp/imagenes/fondo.jpg' %}" alt="{{ comunicado.titulo }}">
+            <div class="carousel-caption centrar-texto">
+              <h1>{{ comunicado.titulo }}</h1>
+              <p><strong>Entidad:</strong> {{ comunicado.entidad.nombre }}</p>
+              <p><strong>Detalle:</strong> {{ comunicado.detalle }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+    
+
+
+    
+    
+</body>
+</html>
